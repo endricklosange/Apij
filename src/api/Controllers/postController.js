@@ -1,10 +1,10 @@
-const Post = require('../Models/postModel');
+const Post = require('../models/postModel');
 exports.listAllPosts = (req, res) => {
     Post.find({}, (error, posts) => {
         if (error) {
             res.status(500);
             console.log(error);
-            res.json({ message: "Erreur serveur" });
+            res.json({ message: "Erreur serveur." });
         }
         else {
             res.status(200);
@@ -18,7 +18,7 @@ exports.createAPost = (req, res) => {
         if (error) {
             res.status(401);
             console.log(error);
-            res.json({ message: "Requête invalide." });
+            res.json({ message: "Reqûete invalide." });
         }
         else {
             res.status(201);
@@ -27,48 +27,41 @@ exports.createAPost = (req, res) => {
     })
 }
 exports.getAPost = (req, res) => {
-    Post.findById(req.params.postId, (error, post) => {
+    Post.findById(req.params.post_id, (error, post) => {
         if (error) {
             res.status(500);
             console.log(error);
-            res.json({ message: "Erreur serveur" });
+            res.json({ message: "Erreur serveur." });
         }
         else {
             res.status(200);
             res.json(post);
         }
-    });
-
+    })
 }
 exports.updateAPost = (req, res) => {
-    const postId = req.params.id;
-    Post.findByIdAndUpdate(postId, req.body, { new: true }, (error, post) => {
+    Post.findByIdAndUpdate(req.params.post_id, req.body, { new: true }, (error, post) => {
         if (error) {
             res.status(500);
             console.log(error);
-            res.json({ message: "Erreur serveur" });
-        } else {
-            if (!post) {
-                res.status(404);
-                res.json({ message: "Post non trouvé" });
-            } else {
-                res.status(200);
-                res.json(post);
-            }
+            res.json({ message: "Erreur serveur." });
         }
-    });
-};
-
-exports.deleteAPost = (req, res) => {
-    const postId = req.params.id;
-    Post.findByIdAndRemove(postId, (error) => {
-        if (error) {
-            res.status(500);
-            console.log(error);
-            res.json({ message: "Erreur serveur" });
-        } else {
+        else {
             res.status(200);
-            res.json({ message: "Erreur serveur" });
+            res.json(post);
         }
-    });
-};
+    })
+}
+exports.deleteAPost = (req, res) => {
+    Post.findByIdAndRemove(req.params.post_id, (error) => {
+        if (error) {
+            res.status(500);
+            console.log(error);
+            res.json({ message: "Erreur serveur." });
+        }
+        else {
+            res.status(200);
+            res.json({message: "Article supprimé"});
+        }
+    })
+}
