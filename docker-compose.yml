@@ -12,3 +12,18 @@ services:
       - '3000:3000'
     volumes:
       - './src:/home/node/app'
+    links:
+      - mongo
+    networks:
+      - b3-api-project
+  mongo:
+    container_name: b3-api-project-mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - b3-api-project
+networks:
+  b3-api-project:
+    
+    driver: bridge
